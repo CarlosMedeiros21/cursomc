@@ -1,6 +1,7 @@
 package com.example.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 
 import java.io.Serializable;
@@ -36,6 +37,8 @@ public class Pedido implements Serializable {
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens = new HashSet<>();
 
+
+
 	public Pedido() {
 		
 	}
@@ -46,6 +49,14 @@ public class Pedido implements Serializable {
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+	public double getValorTotal(){
+		double soma = 0.0;
+		for(ItemPedido ip : itens) {
+			soma = soma +ip.getSubTotal();
+		}
+		return soma;
 	}
 
 	public Integer getId() {
